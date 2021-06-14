@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.HouseMapDao">
+	
+	<select id="getSido" resultType="SidoGugunCodeDto">
+		select left(sido_code,5) sido_code, sido_name FROM sidocode
+		order by sido_code
+	</select>
+	
+	<select id="getGugunInSido" resultType="SidoGugunCodeDto" parameterType="String">
+		select left(gugun_code,5) gugun_code, gugun_name FROM guguncode
+		where left(gugun_code,2) = #{sido}
+		ORDER BY gugun_code
+	</select>
+	
+	<select id="getDongInGugun" resultType="HouseInfoDto" parameterType="String">
+		SELECT distinct dong, code FROM houseinfo
+		where code = #{gugun}
+		ORDER BY dong
+	</select>
+	
+	<select id="getAptInDong" resultType="HouseInfoDto" parameterType="String">
+		SELECT * FROM houseinfo WHERE dong = #{dong}
+		ORDER BY AptName
+	</select>
+	
+	<select id="getAptDeals" resultType="HouseDeal" parameterType="String">
+		select *
+		FROM housedeal left join houseinfo using(dong, AptName)
+		WHERE dong = #{dong} and AptName = #{aptName}
+	</select>
+	
+	<select id="findAptnameall" resultType="HouseInfoDto" parameterType="String">
+		select *
+		FROM houseinfo 
+		WHERE AptName like #{name}
+		ORDER BY AptName;
+	</select>
+	
+	<select id="findAptnamesido" resultType="HouseInfoDto" parameterType="String">
+		select *
+		FROM houseinfo 
+		WHERE code like #{sido} and AptName like #{name}
+		ORDER BY AptName
+	</select>
+	<select id="findAptnamegugun" resultType="HouseInfoDto" parameterType="String">
+		select *
+		FROM houseinfo 
+		WHERE code like #{gugun} and AptName like #{name}
+		ORDER BY AptName
+	</select>
+	<select id="findAptnamedong" resultType="HouseInfoDto" parameterType="String">
+		select *
+		FROM houseinfo 
+		WHERE dong = #{dong} and AptName like #{name}
+		ORDER BY AptName
+	</select>
+	
+	 <select id="show" resultType="HouseDeal" parameterType="String">
+        select *
+        FROM housedeal right join (select dong,Aptname,lat,lng from houseinfo where no=#{no}) as h using(dong, AptName)
+    </select>
+</mapper>

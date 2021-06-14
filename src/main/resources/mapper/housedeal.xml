@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.HouseDao">
+	
+	<select id="search" resultType="HouseDeal" parameterType="int">
+		select * 
+		from housedeal as h left join houseinfo using(dong, AptName)
+		where h.no = #{no}
+	</select>
+	
+	<select id="searchAll13" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal left join houseinfo using(dong, AptName)
+		where dong = #{dong}
+	</select>
+	
+	<select id="searchAllfindall13" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal left join houseinfo using(dong, AptName)
+		where Aptname like #{name}
+	</select>
+	
+	<select id="searchAllfindsido13" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal as h left join houseinfo using(dong, AptName)
+		where h.code like #{sido} and Aptname like #{name}
+	</select>
+	
+	<select id="searchAllfindgugun13" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal as h left join houseinfo using(dong, AptName)
+		where h.code like #{gugun} and Aptname like #{name}
+	</select>
+	
+	<select id="searchAllfinddong13" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal left join houseinfo using(dong, AptName)
+		where dong = #{dong} and Aptname like #{name}
+	</select>
+	
+	<select id="searchAll24" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal left join houseinfo using(dong, AptName)
+		where dong = #{dong}
+	</select>
+	
+<select id="searchAllfindall24" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal left join houseinfo using(dong, AptName)
+		where Aptname like #{name}
+	</select>
+	
+	<select id="searchAllfindsido24" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal as h left join houseinfo using(dong, AptName)
+		where h.code like #{sido} and Aptname like #{name}
+	</select>
+	
+	<select id="searchAllfindgugun24" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal as h left join houseinfo using(dong, AptName)
+		where h.code like #{gugun} and Aptname like #{name}
+	</select>
+	
+	<select id="searchAllfinddong24" resultType="HouseDeal" parameterType="String">
+		select *
+		from housedeal left join houseinfo using(dong, AptName)
+		where dong = #{dong} and Aptname like #{name}
+	</select>
+</mapper>

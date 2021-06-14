@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.BoardMapper">
+
+	<!-- notice -->
+	<insert id="writenoticeArticle" parameterType="BoardDto">
+		insert into notice_board (userid, subject, content, regtime)
+		values (#{userid}, #{subject}, #{content}, now())
+	</insert>
+	
+	<select id="listnoticeArticle" parameterType="map" resultType="BoardDto">
+		select articleno, userid, subject, content, date_format(regtime, '%Y-%m-%d') as regtime
+		from notice_board
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+		order by articleno desc
+		limit #{start}, #{spp}
+	</select>
+	
+	<select id="detailnoticeArticle" parameterType="String" resultType="BoardDto">
+		select articleno, userid, subject, content, date_format(regtime, '%Y-%m-%d') as regtime
+		from notice_board
+		where articleno = #{articleno}
+	</select>
+	
+	<select id="notice_getTotalCount" parameterType="map" resultType="int">
+		select count(articleno)
+		from notice_board
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+	</select>
+	
+	<select id="getnoticeArticle" parameterType="int" resultType="BoardDto">
+		select articleno, userid, subject, content, date_format(regtime, '%Y-%m-%d') as regtime
+		from notice_board
+		where articleno = #{articleno}
+	</select>
+	
+	<update id="modifynoticeArticle" parameterType="BoardDto">
+		update notice_board
+		set subject = #{subject}, content = #{content}
+		where articleno = #{articleno}
+	</update>
+	
+	<delete id="deletenoticeArticle" parameterType="int">
+	delete from notice_board
+	where articleno = #{articleno}
+	</delete>
+	
+	
+	
+	
+	<!-- qna -->
+	<insert id="writeqnaArticle" parameterType="QnaBoardDto">
+		insert into qna_board (userid, subject, content, regtime)
+		values (#{userid}, #{subject}, #{content}, now())
+	</insert>
+	
+	<select id="listqnaArticle" parameterType="map" resultType="QnaBoardDto">
+		select articleno, userid, subject, content, date_format(regtime, '%Y-%m-%d') as regtime, answertag, answer
+		from qna_board
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+		order by articleno desc
+		limit #{start}, #{spp}
+	</select>
+	
+	<select id="qna_getTotalCount" parameterType="map" resultType="int">
+		select count(articleno)
+		from qna_board
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+	</select>
+	
+	<select id="getqnaArticle" parameterType="int" resultType="QnaBoardDto">
+		select articleno, userid, subject, content, date_format(regtime, '%Y-%m-%d') as regtime, answertag, answer
+		from qna_board
+		where articleno = #{articleno}
+	</select>
+	
+	<update id="modifyqnaArticle" parameterType="QnaBoardDto">
+		update qna_board
+		set subject = #{subject}, content = #{content}
+		where articleno = #{articleno}
+	</update>
+	
+	<update id="answerqnaArticle" parameterType="QnaBoardDto">
+		update qna_board
+		set answer = #{answer}, answertag = 'YES'
+		where articleno = #{articleno}
+	</update>
+	
+	<delete id="deleteqnaArticle" parameterType="int">
+	delete from qna_board
+	where articleno = #{articleno}
+	</delete>
+	
+</mapper>

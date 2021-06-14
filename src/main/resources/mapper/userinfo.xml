@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.LoginDao">
+	
+	<select id="login" resultType="MemberDto" parameterType="map">
+		select *
+		from userinfo
+		where userid = #{userid} and userpwd = #{userpwd}
+	</select>
+	
+	<insert id="insertUserInfo" parameterType="MemberDto">
+		insert into userinfo (userid, username, userpwd, pwdqes, pwdans, email, address, tel)
+		values(#{userid}, #{username}, #{userpwd}, #{pwdqes}, #{pwdans}, #{email}, #{address}, #{tel})
+	</insert>
+	
+	<select id="memberDetail" resultType="MemberDto" parameterType="String">
+		select userid, username, userpwd, pwdqes, pwdans, email, address, tel
+		from userinfo
+		where userid = #{userid}
+	</select>
+	
+	<update id="changeinfo" parameterType="MemberDto">
+		update userinfo
+		set username = #{username}, userpwd = #{userpwd}, email = #{email}, address = #{address}, tel = #{tel}
+		where userid = #{userid}
+	</update>
+
+	<delete id="deleteinfo" parameterType="String">
+		delete from userinfo
+		where userid = #{userid}
+	</delete>
+	
+	<select id="findid" resultType="String" parameterType="String">
+		select userid
+		from userinfo
+		where email = #{email}
+	</select>
+	
+	<select id="findpwd" resultType="String" parameterType="String">
+		select pwdqes
+		from userinfo
+		where userid = #{userid}
+	</select>
+	
+	<select id="findpwd2" resultType="String" parameterType="String">
+		select userpwd
+		from userinfo
+		where userid = #{userid} and pwdans = #{pwdans}
+	</select>
+	
+	<select id="memberListall" resultType="MemberDto">
+		select userid, username ,userpwd ,pwdqes ,pwdans ,email ,address ,tel
+		from userinfo
+	</select>
+	<select id="memberList" resultType="MemberDto" parameterType="String">
+		select userid, username ,userpwd ,pwdqes ,pwdans ,email ,address ,tel
+		from userinfo
+		where userid like #{searchid}
+	</select>
+	
+</mapper>
